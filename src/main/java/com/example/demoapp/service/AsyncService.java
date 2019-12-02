@@ -41,7 +41,6 @@ public class AsyncService {
         log.info("album, {}", album);
         Thread.sleep(1000L);
         log.info("album completed");
-        System.out.println(album);
 
         return CompletableFuture.completedFuture(album);
     }

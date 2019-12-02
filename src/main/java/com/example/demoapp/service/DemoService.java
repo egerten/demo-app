@@ -60,7 +60,6 @@ public class DemoService {
 
                 for (int i = 0; i < albumJson.get("resultCount").intValue(); i++) {
                     String artist = albumJson.get("results").get(i).get("artistName").toString();
-                    System.out.println(artist);
                     String title = albumJson.get("results").get(i).get("trackName").toString();
                     MyCollection c = new MyCollection(i, title, artist, Info.ALBUM);
                     collections.add(c);

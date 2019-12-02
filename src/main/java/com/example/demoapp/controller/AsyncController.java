@@ -1,10 +1,15 @@
 package com.example.demoapp.controller;
 
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
 import com.example.demoapp.service.AsyncService;
+import com.fasterxml.jackson.core.JsonFactory;
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +35,7 @@ public class AsyncController {
      */
     @RequestMapping(value = "/app", method = RequestMethod.GET)
     @ResponseBody
-    public String testAsync(@RequestParam(value="searchText", required=false, defaultValue="search") @Pattern(regexp = "\\D+") String searchText) throws InterruptedException, ExecutionException, UnsupportedEncodingException {
+    public JsonNode testAsync(@RequestParam(value="searchText", required=false, defaultValue="search") @Pattern(regexp = "\\D+") String searchText) throws InterruptedException, ExecutionException, IOException {
         log.info("Started");
 
         CompletableFuture<String> albums = service.getAlbums(searchText);
@@ -47,6 +52,12 @@ public class AsyncController {
         byte ptext[] = books.get().getBytes();
         String result = new String(ptext, "UTF-8");
 
-        return result;
+        ObjectMapper mapper = new ObjectMapper();
+        JsonFactory factory = mapper.getFactory();
+        JsonParser parser = factory.createParser(result);
+        JsonNode actualObj = mapper.readTree(parser);
+
+
+        return actualObj;
     }
 }
