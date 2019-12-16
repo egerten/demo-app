@@ -39,7 +39,6 @@ public class AsyncService {
         }
 
         log.info("album, {}", album);
-        Thread.sleep(1000L);
         log.info("album completed");
 
         return CompletableFuture.completedFuture(album);
@@ -60,7 +59,6 @@ public class AsyncService {
             log.error("500 Internal Server error");
         }
         log.info("books, {}", books);
-        Thread.sleep(1000L);
         log.info("books completed");
         return CompletableFuture.completedFuture(books);
     }
